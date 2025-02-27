@@ -10,31 +10,25 @@ pipeline {
                 sh """ 
                     export DOTNET_ROOT=/usr/share/dotnet/
                     npm install
-                    dotnet tool install Cake.Tool --version 4.0.0
+                    dotnet tool install Cake.Tool --version 5.0.0
                     dotnet tool restore 
                 """
             }
         }
 
-        stage ('Builds')
+        stage ('Build Debug') 
         {
-            parallel
-            {        
-                stage ('Build Debug') 
-                {
-                    steps 
-                    {
-                        sh 'dotnet cake'
-                    }
-                }
+            steps 
+            {
+                sh 'dotnet cake'
+            }
+        }
 
-                stage ('Build Release')
-                {
-                    steps
-                    {
-                        sh 'dotnet cake'
-                    }
-                }
+        stage ('Build Release')
+        {
+            steps
+            {
+                sh 'dotnet cake'
             }
         }
     }
